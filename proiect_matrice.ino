@@ -49,7 +49,7 @@ unsigned long startTime;
 State currentState = STARTING;
 
 // Main menu elements
-String menuElements[] = {"START", "RULES", "HIGHSCORE", "SETTINGS", "ABOUT", "RULES"};
+String menuElements[] = {"START", "RULES", "HIGHSCORE", "SETTINGS", "ABOUT"};
 int currentElement = 0;
 
 // Settings menu elements
