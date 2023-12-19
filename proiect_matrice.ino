@@ -217,6 +217,7 @@ void loop() {
 
   lastSwState = swState;
 
+  //Resets game if you hold the button on the joystick for 3 seconds
   if(swState == LOW && lastSwState == LOW && (millis() - joystickHoldStartTime > joystickHoldDuration)){
     // Game over, return to the main menu
     resetGame();
@@ -229,6 +230,7 @@ void loop() {
     gameRunning = false;
   }
 
+  //Resets game after you turned off all random LEDs
   if (remainingLEDs == 0) {
     // Game over, return to the main menu
     resetGame();
@@ -240,6 +242,8 @@ void loop() {
     currentState = MAIN_MENU;
     gameRunning = false;
   }
+
+  //Prints on the LCD: "Remaining: nr" (where nr is number of LEDs that have to be turned off)
   if (currentState == GAME) {
     static int previousLEDs = -1;  
 
@@ -269,14 +273,14 @@ void handleGame() {
 
   lastSwState = swState;
 
-  // Debounce switch input and update player LED blinking state
+  // Debouncing for player blinking
   if (millis() - lastDebounceTime > blinkDelay) {
     lastDebounceTime = millis();
     playerBlinkState = !playerBlinkState;
     lc.setLed(0, row_pos, col_pos, playerBlinkState);
   }
 
-  // Check if it's time to move the LED and update positions
+  // Debouncing for player movement
   if (millis() - lastMoved > moveInterval) {
     updatePositions();
     lastMoved = millis();
@@ -431,13 +435,14 @@ void handleSettingsMenu() {
 
   // Check for joystick movement and debounce button press
   if ((millis() - lastDebounceTime) > debounceDelay) {
-    int xDifference = xValue - centerXValue;
+    int xDifference = xValue - centerXValue; //centerXValue = 512
 
     // Increment to the next setting element
     if (xDifference > incrementThreshold) {
       if (incrementState == 0) {
-        incrementState = 1;
+        incrementState = 1; // I used incrementState to not jump through settings while holding the joystick for a bit longer
         if (currentSettingElement < sizeof(settingsOptions) / sizeof(settingsOptions[0]) - 1) {
+          //"sizeof(settingsOptions) / sizeof(settingsOptions[0]) - 1" calculates the number of elements in an array
           currentSettingElement++;
           updateLCD();
         }
@@ -531,7 +536,7 @@ void handleBrightnessSubmenu() {
 
     // Save brightness level to EEPROM only if it has changed
     if (storedBrightnessLevel != brightnessLevel) {
-      EEPROM.update(0, brightnessLevel); // Assuming 0 is the EEPROM address to store brightness
+      EEPROM.update(0, brightnessLevel); // Store brightness to address 0 in EEPROM
       storedBrightnessLevel = brightnessLevel; // Update stored value
     }
 
@@ -600,7 +605,7 @@ void handleDifficultySubmenu() {
   }
 }
 
-// Function to update LCD display
+// Updates LCD, goes from MAIN MENU to SETTINGS and vice-versa
 void updateLCD() {
   lcd.clear();
   lcd.setCursor(0, 0);
