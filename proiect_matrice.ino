@@ -92,6 +92,7 @@ bool matrixChanged = true;        // Flag to track if the matrix display needs u
 unsigned long joystickHoldStartTime = 0;
 const unsigned long joystickHoldDuration = 3000;  
 bool joystickHeld = false;
+int start_timer = 2000;
 
 
 // Player and random LED positions
@@ -165,7 +166,7 @@ void loop() {
   switch (currentState) {
     case STARTING:
       // Display "MAIN MENU" after 2 seconds
-      if (millis() - startTime >= 2000) {
+      if (millis() - startTime >= start_timer) {
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("MAIN MENU");
