@@ -19,7 +19,8 @@ Here is everything you need to know:
 
 ## Features that do not work
 
-The Highscore and Difficulty tabs are not working.
+The Highscore and Difficulty tabs are not working.<br>
+Sometimes, it lights up only 9 LEDs instead of 10.
 
 </details>
 
