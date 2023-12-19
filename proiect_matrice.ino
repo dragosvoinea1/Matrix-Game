@@ -265,7 +265,7 @@ void handleGame() {
   // Check for switch press and update matrix accordingly
   if (swState == LOW && swState != lastSwState) {
     if(matrix[row_pos][col_pos] == ON)
-      remainingLEDs = remainingLEDs - 1; 
+      remainingLEDs = remainingLEDs - 1; // Decrements for each turned off LED
     matrix[row_pos][col_pos] = OFF;
     matrixChanged = true;
     joystickHoldStartTime = millis();
