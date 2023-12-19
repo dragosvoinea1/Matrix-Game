@@ -373,10 +373,12 @@ void handleAbout() {
     lcd.setCursor(0, 0);
     lcd.print("ABOUT");
 
+    // Extract a portion of the aboutMessage to display on the second line
     String displayText = aboutMessage.substring(scrollPosition, scrollPosition + screen_text);
     lcd.setCursor(0, 1);
     lcd.print(displayText);
 
+    // Increment the scroll position
     scrollPosition = (scrollPosition + 1) % (aboutMessage.length() + screen_text);
     
     lastScrollTime = millis();
